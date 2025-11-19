@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Árbol de Directorios</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <header>
+        <h1>ÁRBOL DE DIRECTORIOS</h1>
+        
+        <div id="formFlotante" class="form-flotante">
+            <h3>Agregar elemento</h3>
+            <input type="text" id="nombreInput" placeholder="Nombre archivo/carpeta">
+            <select id="tipoSelect">
+                <option value="archivo">Archivo</option>
+                <option value="carpeta">Carpeta</option>
+            </select><br>
+            <button type="button" id="btnAgregar">Agregar</button>
+            <button type="button" id="btnCancelar">Cancelar</button>
+        </div>
+
+        <form id="formBuscar" class="form-buscar">
+            <input type="text" id="buscarInput" placeholder="Buscar archivo o carpeta">
+            <button type="button" id="btnBuscar">Buscar</button>
+        </form>
+    </header>
+
+    <main>
+        <div id="carpetas" class="contenedor-carpetas">
+            <div class="carpeta raiz">
+                <div>
+                    <input type="checkbox" class="mostrar" checked>
+                    <span class="icono-carpeta">📁</span>
+                    <span class="nombre-carpeta">/</span>
+                    <button type="button" class="btnMas">+</button>
+                    <button type="button" class="btnX" style="visibility:hidden">x</button>
+                </div>
+                <div class="contenido-carpeta"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

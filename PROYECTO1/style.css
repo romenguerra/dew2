@@ -1,0 +1,126 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f5f5f5, #e9ecef);
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+  color: #333;
+}
+
+h1, h3, p {
+  margin: 5px 0;
+  color: #333;
+}
+
+#carteles, #puertas, #escaparates, #relojSemaforo, #coches {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.15);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  margin-bottom: 25px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  background-color: #fdfdfd;
+}
+
+#carteles:hover, 
+#puertas:hover, 
+#escaparates:hover, 
+#relojSemaforo:hover, 
+#coches:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+#carteles {
+  background-color: #faf3dd; 
+}
+
+#puertas {
+  background-color: #dbe7f0; 
+}
+
+#escaparates {
+  background-color: #e3f2e1; 
+}
+
+#relojSemaforo {
+  background-color: #f5e2df;
+}
+
+#coches {
+  background-color: #ece7f5;
+}
+
+#carteles h3 {
+  background-color: #f0d78c;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 1.1em;
+  color: #333;
+  box-shadow: 1px 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+#carteles h3:hover {
+  transform: scale(1.03);
+}
+
+#puertas p {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #3a506b;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.puerta-img {
+  width: 150px;
+  height: auto;
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+
+.puerta-img:hover {
+  transform: scale(1.03);
+}
+
+.escaparate-img {
+  width: 180px;
+  height: auto;
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+
+.escaparate-img:hover {
+  transform: scale(1.03);
+}
+
+.reloj-img {
+  width: 80px;
+  height: auto;
+  margin: 0 10px;
+}
+
+.semaforo-img {
+  width: 120px;
+  height: auto;
+  margin: 0 10px;
+}
+
+.coche-img {
+  width: 100px;
+  height: auto;
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+
+.coche-img:hover {
+  transform: scale(1.07);
+}
+
+

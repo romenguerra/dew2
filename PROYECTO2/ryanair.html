@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ryanair — Reserva</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+</head>
+<body>
+  <script>
+    initAvionParaCompania('ryanair');
+  </script>
+
+  <br>
+  
+  <div id="piedepagina">
+    <button id="calcularPrecioBtn">Calcular precio (seleccionados)</button>
+    <a href="index.html"><button id="volver">Volver</button></a>
+  </div>
+
+  <script>
+    document.getElementById('calcularPrecioBtn').onclick = function () {
+      calcularPrecioSeleccion();
+    };
+  </script>
+</body>
+</html>

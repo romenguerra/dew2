@@ -1,0 +1,110 @@
+/* style.css - sencillo y legible */
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin-top: 0%;
+  margin-left: 0%;
+  margin-right: 0%;
+  /* margin: 20px; */
+  background: #f7f7f7;
+  color: #222;
+}
+
+header {
+  background-color: #645EA1;
+  color: #f7f7f7;
+  margin: 0;
+  padding: 15px;
+}
+
+.botones-companias {
+  display: inline-block;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+button {
+  padding: 30px 38px;
+  margin: 6px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#binter { background:#28a745; color:white; }
+#iberia { background:#d32f2f; color:white; }
+#ryanair { background:#007bff; color:white; }
+#volver { background: gray; color:white; }
+
+/* Nuevos estilos para asientos con más margen y pasillo */
+.asiento {
+  margin: 4px;
+  border-radius: 6px;
+  transition: transform 0.06s, opacity 0.08s;
+}
+
+/* Colores diferentes para cada clase */
+.business { 
+  background: #2E7D32 !important; /* Verde oscuro */
+  box-shadow: inset 0 -4px rgba(0,0,0,0.08); 
+}
+.economica { 
+  background: #1976D2 !important; /* Azul */
+  box-shadow: inset 0 -3px rgba(0,0,0,0.05); 
+}
+.lowcost { 
+  background: #7B1FA2 !important; /* Púrpura */
+  box-shadow: inset 0 -2px rgba(0,0,0,0.03); 
+}
+
+/* Estilo para asientos ocupados - DEBE estar después de las clases de color */
+.asiento.ocupado { 
+  background: #C62828 !important; /* Rojo oscuro para ocupado */
+}
+
+/* Estilo para el pasillo */
+.pasillo {
+  width: 40px !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  cursor: default !important;
+}
+
+/* Contenedor de la tabla más espaciado */
+.contenedor-tabla {
+  margin: 20px auto;
+  padding: 15px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: inline-block;
+}
+
+/* estilos para la tabla de asientos */
+table#tabla-asientos { 
+  margin: 12px auto; 
+  border-collapse: separate;
+  border-spacing: 8px;
+}
+table#tabla-asientos td {
+  width: 70px;
+  height: 50px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  transition: transform 0.06s, opacity 0.08s;
+  border-radius: 8px;
+  padding: 4px;
+  font-size: 12px;
+}
+
+div#piedepagina {
+  text-align:center;
+  margin-top:20px;
+}
