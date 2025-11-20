@@ -2,6 +2,7 @@ const patterns = {
     nombre: /^[A-Z]{1}[a-z]{3,12}$/,
     apellidos: /^[A-Z]{1}[a-z]{2,15}\s{1}[A-Z]{1}[a-z]{2,15}$/,
     dni: /^[x]*\d{8}[a-z]$/i,
+    fec_nacimiento: /^\d{2}\/\d{2}\/\d{4}$/,
     cod_postal: /^\d{5}$/,
     email: /^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$/i,
     telf_fijo: /^(8|9)\d{8}$/,
