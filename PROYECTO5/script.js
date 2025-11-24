@@ -9,20 +9,18 @@ const patterns = {
     telf_movil: /^(6|7)\d{8}$/,
     iban: /^[a-zA-Z]{2}\d{2}(\s?\d{4})+$/,
     tarjeta: /^(\d{4}[-\s]?){3,4}\d{1,4}$/,
-    pass: /^.{12,40}$/,
-    pass2: /^.{12,40}$/
+    pass: /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{12,}$/,
+    pass2: /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{12,}$/
 };
 
 
 const inputs = document.querySelectorAll('input');
 
-//para validar en timepo real
+//para validar en tiempo real
 inputs.forEach((input) => {
     input.addEventListener('keyup', (e) => {
         
     const name = e.target.attributes.name.value;
-    //if (e.target.name =="dni") {validate(e.target, dni)};
-    //if (e.target.name =="username") {validate(e.target, username)};
 
     if (patterns[name]) validate(e.target, patterns[name]);
 
@@ -47,11 +45,19 @@ function validate(campo, regex) {
 
 function validarContrasena(pass, pass2) {
     if(pass && pass2) {
-        if(pass.value === pass2.value){
+        const regexPass = patterns.pass;
+        
+        if(regexPass.test(pass.value) && pass.value === pass2.value){
             pass2.className = 'valido';
         } else {
             pass2.className = 'invalido';
-    }
+        }
+        
+        if(!regexPass.test(pass.value)) {
+            pass.className = 'invalido';
+        } else if(pass.value === pass2.value) {
+            pass.className = 'valido';
+        }
     }
 };
 
@@ -66,6 +72,13 @@ function validarFormularioCompleto() {
             todosValidos = false;
         }
         
+        if (name === 'pass2') {
+            const pass = document.querySelector('input[name="pass"]');
+            if(pass.value !== input.value) {
+                input.className = 'invalido';
+                todosValidos = false;
+            }
+        }
     });
     return todosValidos;
 };
@@ -98,6 +111,22 @@ document.getElementById('btnGuardar').addEventListener('click', function(){
 })
 
 document.getElementById('btnRecuperar').addEventListener('click', function(){
-    console.log('boton recuperar');
+    const datosGuardados = sessionStorage.getItem('formularioTienda');
+    if (datosGuardados) {
+        const datos = JSON.parse(datosGuardados);
+        
+        Object.keys(datos).forEach(key => {
+            const input = document.querySelector(`input[name="${key}"]`);
+            if (input) {
+                input.value = datos[key];
+                if (patterns[key]) {
+                    validate(input, patterns[key]);
+                }
+            }
+        });
+        
+        console.log('Datos recuperados!');
+    } else {
+        console.log('No hay datos guardados');
+    }
 })
-
