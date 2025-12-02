@@ -195,7 +195,7 @@ function limpiarFormulario(){
 function mostrarDatosFormulario(datos){
     const mapeo = {
         'nombre': 'nombre',
-        'apellido': 'apellidos',
+        'apellidos': 'apellidos',
         'fecha': 'fecha',
         'dni': 'dni',
         'cp': 'cod_postal',
@@ -237,7 +237,7 @@ document.getElementById('GETJSON').addEventListener('click', function(){
 
     const datosEjemplo = {
         "nombre": "Pepe",
-        "apellido": "López Pérez",
+        "apellidos": "López Pérez",
         "dni": "12345678X",
         "fecha": "22/09/2000",
         "cp": "35500",
@@ -288,3 +288,41 @@ document.getElementById('POST').addEventListener('click', function(){
     limpiarFormulario();
 
 });
+
+
+//obtener datos desde php
+document.getElementById('GETPHP').addEventListener('click', function(){
+
+    console.log('Boton OBTENER DATOS en PHP clicado');
+
+    limpiarMensajes();
+
+
+    const xmlhttp = new XMLHttpRequest();
+
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+        console.log(this.responseText);
+
+            try {
+                const myObj = JSON.parse(this.responseText);
+
+                mostrarDatosFormulario(myObj);
+                mostrarMensaje('Datos de ' + myObj.nombre + ' recibidos correctamente')
+
+            } catch (e) {
+                mostrarMensaje('Error en los datos')
+            }
+        
+        }
+    };
+    xmlhttp.open("GET", "process.php", true);
+    xmlhttp.send();
+
+
+});
+
+
+
+
+

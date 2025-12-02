@@ -23,7 +23,7 @@ if(isset($_POST["x"])){
     $myObj->movil = "666999666";
     $myObj->tarjeta = "4539955085883327";
     $myObj->iban = "ES7921000813610123456789";
-    $myObj->contrasena = "Pepe1234567890";
+    $myObj->contrasena = "Pepe1234567890*";
     
     $myJSON = json_encode($myObj);
     echo $myJSON;
