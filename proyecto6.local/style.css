@@ -63,3 +63,30 @@ input.invalido + p{
     background-color: #2196F3;
     color: white;
 }
+
+/* Estilos simples para mensajes */
+#mensajes {
+    padding: 10px;
+    margin: 15px 0;
+    border-radius: 5px;
+    min-height: 20px;
+    font-weight: bold;
+}
+
+.exito {
+    background-color: #d4ffd4;
+    color: #006600;
+    border: 1px solid #00cc00;
+}
+
+.error {
+    background-color: #ffd4d4;
+    color: #cc0000;
+    border: 1px solid #ff0000;
+}
+
+.info {
+    background-color: #d4e6ff;
+    color: #0000cc;
+    border: 1px solid #0066ff;
+}
