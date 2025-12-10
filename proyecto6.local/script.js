@@ -118,54 +118,6 @@ function limpiarMensajes() {
     mensajesDiv.className = '';
 }
 
-/* document.getElementById('btnGuardar').addEventListener('click', function(){
-    if(validarFormularioCompleto()) {
-        const datosUsuario = {
-            nombre: document.querySelector('input[name="nombre"]').value,
-            apellidos: document.querySelector('input[name="apellidos"]').value,
-            dni: document.querySelector('input[name="dni"]').value,
-            fecha: document.querySelector('input[name="fecha"]').value,
-            cod_postal: document.querySelector('input[name="cod_postal"]').value,
-            email: document.querySelector('input[name="email"]').value,
-            telf_fijo: document.querySelector('input[name="telf_fijo"]').value,
-            telf_movil: document.querySelector('input[name="telf_movil"]').value,
-            iban: document.querySelector('input[name="iban"]').value,
-            tarjeta:document.querySelector('input[name="tarjeta"]').value,
-            pass:document.querySelector('input[name="pass"]').value,
-            pass2: document.querySelector('input[name="pass2"]').value
-        }
-
-        sessionStorage.setItem('formularioTienda', JSON.stringify(datosUsuario));
-
-        console.log('Datos guardados!');
-
-    } else {
-        console.log('HAY ERRORES');
-    }
-})
-
-document.getElementById('btnRecuperar').addEventListener('click', function(){
-    const datosGuardados = sessionStorage.getItem('formularioTienda');
-    if (datosGuardados) {
-        const datos = JSON.parse(datosGuardados);
-        
-        Object.keys(datos).forEach(key => {
-            const input = document.querySelector(`input[name="${key}"]`);
-            if (input) {
-                input.value = datos[key];
-                if (patterns[key]) {
-                    validate(input, patterns[key]);
-                }
-            }
-        });
-        
-        console.log('Datos recuperados!');
-    } else {
-        console.log('No hay datos guardados');
-    }
-}) */
-
-
 function obtenerDatosFormulario() {
     return {
         nombre: document.querySelector('input[name="nombre"]').value,
@@ -231,9 +183,9 @@ function mostrarDatosFormulario(datos){
 
 
 //obtener datos desde json
-document.getElementById('GETJSON').addEventListener('click', function(){
+document.querySelector('#GETJSON').addEventListener('click', function(){
 
-    console.log("Boton POST clickeado");
+    console.log("Boton Obtener desde .json clickeado");
 
     const datosEjemplo = {
         "nombre": "Pepe",
@@ -258,9 +210,9 @@ document.getElementById('GETJSON').addEventListener('click', function(){
 
 // publicar en php (POST)
 
-document.getElementById('POST').addEventListener('click', function(){
+document.querySelector('#POST').addEventListener('click', function(){
 
-    console.log('Boton Publicar en PHP clicado');
+    console.log('Botón Publicar en .php clicado');
 
         //validar formulario
     if (!validarFormularioCompleto()) {
@@ -291,9 +243,9 @@ document.getElementById('POST').addEventListener('click', function(){
 
 
 //obtener datos desde php
-document.getElementById('GETPHP').addEventListener('click', function(){
+document.querySelector('#GETPHP').addEventListener('click', function(){
 
-    console.log('Boton OBTENER DATOS en PHP clicado');
+    console.log('Botón Obtener desde .php clicado');
 
     limpiarMensajes();
 
@@ -322,7 +274,104 @@ document.getElementById('GETPHP').addEventListener('click', function(){
 
 });
 
+// PUBLICAR en base de datos (POST + SQL)
+document.querySelector('#POST_SQL').addEventListener('click', function() {
+    console.log('Botón Publicar base de datos clicado');
 
+    // Validar formulario
+    if (!validarFormularioCompleto()) {
+        mostrarMensaje('Hay errores en el formulario. Corrígelos antes de enviar.', 'error');
+        return;
+    }
 
+    const datos = obtenerDatosFormulario();
 
+    // Verificar que el DNI no esté vacío
+    if (!datos.dni || datos.dni.trim() === '') {
+        mostrarMensaje('El DNI es obligatorio para guardar en base de datos', 'error');
+        return;
+    }
 
+    // Crear parámetros igual que en el ejemplo del profesor
+    const params = 
+        "nombre=" + encodeURIComponent(datos.nombre) +
+        "&apellidos=" + encodeURIComponent(datos.apellidos) +
+        "&dni=" + encodeURIComponent(datos.dni) +
+        "&fecha=" + encodeURIComponent(datos.fecha) +
+        "&cp=" + encodeURIComponent(datos.cp) +
+        "&correo=" + encodeURIComponent(datos.correo) +
+        "&telefono=" + encodeURIComponent(datos.telefono) +
+        "&movil=" + encodeURIComponent(datos.movil) +
+        "&tarjeta=" + encodeURIComponent(datos.tarjeta) +
+        "&iban=" + encodeURIComponent(datos.iban) +
+        "&contrasena=" + encodeURIComponent(datos.contrasena);
+
+    console.log('Enviando parámetros:', params);
+
+    // Mostrar mensaje de carga
+    mostrarMensaje('Enviando datos a la base de datos...', 'info');
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            mostrarMensaje('✓ ' + this.responseText, 'exito');
+            limpiarFormulario();
+        }
+    };
+
+    // Enviar al servidor igual que los otros botones
+    xhr.open("POST", "database.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send(params);
+});
+
+// OBTENER desde base de datos (GET + SQL)
+document.querySelector('#GET_SQL').addEventListener('click', function() {
+    console.log('Botón Obtener base de datos clicado');
+
+    // Obtener el DNI del formulario
+    const dniInput = document.querySelector('input[name="dni"]');
+    const dni = dniInput.value.trim();
+
+    if (!dni) {
+        mostrarMensaje('Introduce un DNI en el campo correspondiente para buscar', 'error');
+        dniInput.focus();
+        return;
+    }
+
+    // Validar formato del DNI (igual que validación en tiempo real)
+    if (!patterns.dni.test(dni)) {
+        mostrarMensaje('El formato del DNI no es válido', 'error');
+        return;
+    }
+
+    limpiarMensajes();
+    mostrarMensaje('Buscando en base de datos...', 'info');
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+
+            try {
+                const respuesta = JSON.parse(this.responseText);
+
+                if (respuesta.error) {
+                    mostrarMensaje(respuesta.error, 'error');
+                } else {
+                    mostrarDatosFormulario(respuesta);
+                    mostrarMensaje('Datos recuperados para DNI: ' + respuesta.dni, 'exito');
+                }
+            } catch (e) {
+                mostrarMensaje('Error en los datos recibidos', 'error');
+            }
+        }
+    };
+
+    // Obtener datos igual que los otros botones GET
+    xhr.open("GET", "database.php?dni=" + encodeURIComponent(dni), true);
+    xhr.send();
+});
