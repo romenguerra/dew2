@@ -50,5 +50,18 @@
         "tarjeta": "4539955085883327",
         "iban": "ES7921000813610123456789",
         "contrasena": "Pepe1234567890*"
+    },
+    {
+        "nombre": "Airam",
+        "apellidos": "López Pérez",
+        "dni": "45678945R",
+        "fecha": "22\/09\/2000",
+        "cp": "35500",
+        "correo": "pepe@gmail.com",
+        "telefono": "928666666",
+        "movil": "666999666",
+        "tarjeta": "4539955085883327",
+        "iban": "ES7921000813610123456789",
+        "contrasena": "Pepe1234567890*"
     }
 ]

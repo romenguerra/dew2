@@ -313,39 +313,33 @@ document.querySelector('#POST_SQL').addEventListener('click', function() {
         return;
     }
 
-    // Crear parámetros 
-    const params = 
-        "nombre=" + encodeURIComponent(datos.nombre) +
-        "&apellidos=" + encodeURIComponent(datos.apellidos) +
-        "&dni=" + encodeURIComponent(datos.dni) +
-        "&fecha=" + encodeURIComponent(datos.fecha) +
-        "&cp=" + encodeURIComponent(datos.cp) +
-        "&correo=" + encodeURIComponent(datos.correo) +
-        "&telefono=" + encodeURIComponent(datos.telefono) +
-        "&movil=" + encodeURIComponent(datos.movil) +
-        "&tarjeta=" + encodeURIComponent(datos.tarjeta) +
-        "&iban=" + encodeURIComponent(datos.iban) +
-        "&contrasena=" + encodeURIComponent(datos.contrasena);
-
-    console.log('Enviando parámetros:', params);
-
-    // Mostrar mensaje de carga
     mostrarMensaje('Enviando datos a la base de datos...', 'info');
 
     const xhr = new XMLHttpRequest();
 
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-            mostrarMensaje('✓ ' + this.responseText, 'exito');
-            limpiarFormulario();
+            console.log('Respuesta:', this.responseText);
+            
+            try {
+                const respuesta = JSON.parse(this.responseText);
+                
+                if (respuesta.error) {
+                    mostrarMensaje('x ' + respuesta.error, 'error');
+                } else {
+                    mostrarMensaje('v ' + respuesta.mensaje, 'exito');
+                    limpiarFormulario();
+                }
+            } catch (e) {
+                mostrarMensaje('Error procesando respuesta', 'error');
+            }
         }
     };
 
-    // Enviar al servidor igual que los otros botones
+    // Enviar como JSON (como tu compañera)
     xhr.open("POST", "database.php", true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.send(params);
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.send(JSON.stringify(datos));
 });
 
 
@@ -358,14 +352,8 @@ document.querySelector('#GET_SQL').addEventListener('click', function() {
     const dni = dniInput.value.trim();
 
     if (!dni) {
-        mostrarMensaje('Introduce un DNI en el campo correspondiente para buscar', 'error');
+        mostrarMensaje('Introduce un DNI para buscar', 'error');
         dniInput.focus();
-        return;
-    }
-
-    // Validar formato del DNI (igual que validación en tiempo real)
-    if (!patterns.dni.test(dni)) {
-        mostrarMensaje('El formato del DNI no es válido', 'error');
         return;
     }
 
@@ -376,24 +364,23 @@ document.querySelector('#GET_SQL').addEventListener('click', function() {
 
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-
+            console.log('Respuesta:', this.responseText);
+            
             try {
                 const respuesta = JSON.parse(this.responseText);
-
+                
                 if (respuesta.error) {
                     mostrarMensaje(respuesta.error, 'error');
                 } else {
                     mostrarDatosFormulario(respuesta);
-                    mostrarMensaje('Datos recuperados para DNI: ' + respuesta.dni, 'exito');
+                    mostrarMensaje('Datos recuperados de la base de datos', 'exito');
                 }
             } catch (e) {
-                mostrarMensaje('Error en los datos recibidos', 'error');
+                mostrarMensaje('Error procesando los datos', 'error');
             }
         }
     };
 
-    // Obtener datos igual que los otros botones GET
     xhr.open("GET", "database.php?dni=" + encodeURIComponent(dni), true);
     xhr.send();
 });
