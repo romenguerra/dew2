@@ -187,29 +187,37 @@ document.querySelector('#GETJSON').addEventListener('click', function(){
 
     console.log("Boton Obtener desde .json clickeado");
 
-    const datosEjemplo = {
-        "nombre": "Pepe",
-        "apellidos": "López Pérez",
-        "dni": "12345678X",
-        "fecha": "22/09/2000",
-        "cp": "35500",
-        "correo": "pepe@gmail.com",
-        "telefono": "928666666",
-        "movil": "666999666",
-        "tarjeta": "4539955085883327",
-        "iban": "ES7921000813610123456789",
-        "contrasena": "Pepe1234567890*"
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function() 
+    {
+        if(this.readyState == 4 && this.status == 200)
+        {
+            try 
+            {
+                const datos = JSON.parse(this.responseText);
+
+                mostrarDatosFormulario(datos[0]);
+
+                mostrarMensaje('Datos cargados desde archivo JSON', 'exito');
+            } catch (e) 
+            {
+                mostrarMensaje('Error: El archivo JSON no tiene formato valido', 'error');
+            }
+        }
     };
 
-    mostrarDatosFormulario(datosEjemplo);
+    const timestamp = new Date().getTime();
+    xhr.open("GET", "datos.json?t=" + timestamp, true);
 
-    console.log('Datos cargados desde objeto JSON');
+    //Enviar la peticion
+    xhr.send();
 
 })
 
 
 // publicar en php (POST)
-
 document.querySelector('#POST').addEventListener('click', function(){
 
     console.log('Botón Publicar en .php clicado');
@@ -223,19 +231,32 @@ document.querySelector('#POST').addEventListener('click', function(){
     const datosJSON = JSON.stringify(datos);
 
 
-    xmlhttp = new XMLHttpRequest();
+    const xmlhttp = new XMLHttpRequest();
 
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             console.log(this.responseText);
-            mostrarMensaje('Datos enviados correctamente');
+
+            try {
+                const respuesta = JSON.parse(this.responseText);
+
+                if(respuesta.error) {
+                    mostrarMensaje('Error: ' + respuesta.error, 'error');
+                } else {
+                    mostrarMensaje( respuesta.mensaje, 'exito');
+                    limpiarFormulario();
+                }
+            } catch (e) {
+                mostrarMensaje('Error procesando respuesta', 'error');
+            }
+
         }
     };
 
     //enviar al servidor
     xmlhttp.open("POST", "process.php", true);
-    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xmlhttp.send("x=" + datosJSON);
+    xmlhttp.setRequestHeader("Content-type", "application/json");
+    xmlhttp.send(datosJSON);
 
     limpiarFormulario();
 
@@ -292,7 +313,7 @@ document.querySelector('#POST_SQL').addEventListener('click', function() {
         return;
     }
 
-    // Crear parámetros igual que en el ejemplo del profesor
+    // Crear parámetros 
     const params = 
         "nombre=" + encodeURIComponent(datos.nombre) +
         "&apellidos=" + encodeURIComponent(datos.apellidos) +
@@ -326,6 +347,7 @@ document.querySelector('#POST_SQL').addEventListener('click', function() {
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(params);
 });
+
 
 // OBTENER desde base de datos (GET + SQL)
 document.querySelector('#GET_SQL').addEventListener('click', function() {
