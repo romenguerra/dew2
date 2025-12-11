@@ -1,0 +1,144 @@
+
+// PASO 1: ¿Qué elementos necesito? (mirar HTML)
+// - Un contenedor para las carpetas (árbol)
+// - Un formulario para agregar
+// - Input para nombre
+// - Select para tipo
+// - Botones de acción
+
+// PASO 2: Obtener esos elementos
+const arbol = document.getElementById("carpetas");
+const formAgregar = document.getElementById("formFlotante");
+const inputNombre = document.getElementById("nombreInput");
+const selectTipo = document.getElementById("tipoSelect");
+const btnAgregar = document.getElementById("btnAgregar");
+const btnCancelar = document.getElementById("btnCancelar");
+
+// PASO 3: ¿Qué variables necesito recordar?
+let carpetaSeleccionada = null;  // Para saber dónde agregar
+
+// PASO 4: ¿Cuál es la funcionalidad MÁS SIMPLE para empezar?
+// "Mostrar formulario cuando hago clic en +"
+
+// Implemento esa funcionalidad PRIMERO:
+arbol.addEventListener("click", function(e) {
+    if (e.target.classList.contains("btnMas")) {
+        carpetaSeleccionada = e.target.closest(".carpeta");
+        formAgregar.style.display = "block";
+        inputNombre.focus();
+    }
+});
+
+// ¡YA FUNCIONA ALGO! Ahora siguiente funcionalidad...
+
+// PASO 5: Agregar elementos (lo más simple posible)
+btnAgregar.addEventListener("click", function() {
+    const nombre = inputNombre.value;
+    const tipo = selectTipo.value;
+    
+    // Validación básica
+    if (!nombre) {
+        alert("Escribe un nombre");
+        return;
+    }
+    
+    // Crear elemento según tipo
+    if (tipo === "carpeta") {
+        crearCarpeta(nombre);
+    } else {
+        crearArchivo(nombre);
+    }
+    
+    // Limpiar y cerrar
+    inputNombre.value = "";
+    formAgregar.style.display = "none";
+});
+
+// PASO 6: Implementar crearCarpeta() y crearArchivo()
+function crearCarpeta(nombre) {
+    // 1. Crear div con clase "carpeta"
+    // 2. Poner dentro: checkbox, icono, nombre, botones
+    // 3. Añadir al contenedor correcto
+    // ¡Una cosa a la vez!
+}
+
+// Y así sigo... UNA FUNCIÓN A LA VEZ
+
+/*********************************************
+ * PLANTILLA PARA CUALQUIER PROYECTO JS
+ * 1. Obtener elementos
+ * 2. Definir variables globales necesarias
+ * 3. Configurar eventos principales
+ * 4. Implementar funciones una por una
+ *********************************************/
+
+// ========== 1. OBTENER ELEMENTOS DEL DOM ==========
+const elementoPrincipal = document.getElementById("idPrincipal");
+const botonAccion = document.getElementById("botonAccion");
+const inputTexto = document.getElementById("inputTexto");
+// ... obtener todos los elementos que necesites
+
+// ========== 2. VARIABLES GLOBALES ==========
+let datos = [];  // Para almacenar información
+let estado = null;  // Para guardar estado temporal
+
+// ========== 3. CONFIGURAR EVENTOS ==========
+// Evento más importante primero
+botonAccion.addEventListener("click", funcionPrincipal);
+
+// Si hay input, evento para capturar Enter
+inputTexto.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        funcionPrincipal();
+    }
+});
+
+// ========== 4. FUNCIONES (implementar una por una) ==========
+
+// FUNCIÓN 1: La más importante (ejecuta las demás)
+function funcionPrincipal() {
+    // 1. Obtener datos del usuario
+    let datoUsuario = inputTexto.value.trim();
+    
+    // 2. Validar (SIEMPRE validar)
+    if (!datoUsuario) {
+        mostrarError("Campo vacío");
+        return;
+    }
+    
+    // 3. Procesar datos
+    let resultado = procesarDatos(datoUsuario);
+    
+    // 4. Mostrar resultado
+    mostrarResultado(resultado);
+    
+    // 5. Limpiar (opcional)
+    limpiarFormulario();
+}
+
+// FUNCIÓN 2: Procesar datos (lógica de negocio)
+function procesarDatos(dato) {
+    // Aquí va la lógica específica
+    // Ejemplo: transformar texto
+    return dato.toUpperCase();
+}
+
+// FUNCIÓN 3: Mostrar resultados
+function mostrarResultado(resultado) {
+    // Crear elemento o modificar existente
+    const nuevoElemento = document.createElement("div");
+    nuevoElemento.textContent = resultado;
+    elementoPrincipal.appendChild(nuevoElemento);
+}
+
+// FUNCIÓN 4: Mostrar errores
+function mostrarError(mensaje) {
+    alert(mensaje);  // Simple pero efectivo para empezar
+}
+
+// FUNCIÓN 5: Limpiar
+function limpiarFormulario() {
+    inputTexto.value = "";
+    inputTexto.focus();
+}
+
