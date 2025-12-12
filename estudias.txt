@@ -1,0 +1,302 @@
+ 
+// VARIABLES GLOBALES
+let pantalla = document.getElementById("pantalla");
+let numeroActual = "0";
+let numeroAnterior = "";
+let operador = null;
+let reiniciarPantalla = false;
+
+// OBTENER TODOS LOS BOTONES
+const botones = document.querySelectorAll("button");
+
+// ASIGNAR EVENTO A CADA BOTÓN
+botones.forEach((boton) => {
+    boton.addEventListener("click", function () {
+        const valor = this.textContent;
+
+        // VER QUÉ TIPO DE BOTÓN ES
+        if (this.classList.contains("numero")) {
+            ingresarNumero(valor);
+        } else if (this.classList.contains("operador")) {
+            ingresarOperador(valor);
+        } else if (this.classList.contains("especial")) {
+            ejecutarEspecial(valor);
+        }
+
+        actualizarPantalla();
+    });
+});
+
+// FUNCIÓN PARA INGRESAR NÚMEROS
+function ingresarNumero(numero) {
+    if (numeroActual === "0" || reiniciarPantalla) {
+        numeroActual = numero;
+        reiniciarPantalla = false;
+    } else {
+        // Evitar múltiples puntos decimales
+        if (numero === "." && numeroActual.includes(".")) {
+            return;
+        }
+        numeroActual += numero;
+    }
+}
+
+// FUNCIÓN PARA INGRESAR OPERADORES
+function ingresarOperador(nuevoOperador) {
+    // Si ya hay un operador pendiente, calcular primero
+    if (operador !== null && !reiniciarPantalla) {
+        calcular();
+    }
+
+    // Guardar el número actual como anterior
+    numeroAnterior = numeroActual;
+    operador = nuevoOperador;
+    reiniciarPantalla = true;
+}
+
+// FUNCIÓN PARA BOTONES ESPECIALES
+function ejecutarEspecial(valor) {
+    switch (valor) {
+        case "C": // Clear - Limpiar todo
+            numeroActual = "0";
+            numeroAnterior = "";
+            operador = null;
+            reiniciarPantalla = false;
+            break;
+
+        case "⌫": // Borrar último dígito
+            if (numeroActual.length > 1) {
+                numeroActual = numeroActual.slice(0, -1);
+            } else {
+                numeroActual = "0";
+            }
+            break;
+
+        case "%": // Porcentaje
+            numeroActual = (parseFloat(numeroActual) / 100).toString();
+            break;
+    }
+}
+
+// FUNCIÓN PARA CALCULAR
+function calcular() {
+    if (operador === null || numeroAnterior === "") {
+        return;
+    }
+
+    const num1 = parseFloat(numeroAnterior);
+    const num2 = parseFloat(numeroActual);
+
+    if (isNaN(num1) || isNaN(num2)) {
+        return;
+    }
+
+    let resultado;
+
+    switch (operador) {
+        case "+":
+            resultado = num1 + num2;
+            break;
+        case "−":
+            resultado = num1 - num2;
+            break;
+        case "×":
+            resultado = num1 * num2;
+            break;
+        case "÷":
+            if (num2 === 0) {
+                resultado = "Error";
+            } else {
+                resultado = num1 / num2;
+            }
+            break;
+        default:
+            return;
+    }
+
+    // Limitar decimales
+    if (typeof resultado === "number") {
+        // Si es entero, mostrar sin decimales
+        // Si tiene decimales, mostrar máximo 10 decimales
+        resultado = resultado.toString();
+        if (resultado.includes(".")) {
+            resultado = parseFloat(resultado).toFixed(10);
+            // Eliminar ceros innecesarios al final
+            resultado = parseFloat(resultado).toString();
+        }
+    }
+
+    numeroActual = resultado.toString();
+    operador = null;
+    numeroAnterior = "";
+    reiniciarPantalla = true;
+}
+
+// FUNCIÓN PARA ACTUALIZAR LA PANTALLA
+function actualizarPantalla() {
+    pantalla.value = numeroActual;
+
+    // Limitar longitud de la pantalla
+    if (numeroActual.length > 12) {
+        pantalla.style.fontSize = "1.5em";
+    } else {
+        pantalla.style.fontSize = "2em";
+    }
+}
+
+// EVENTO PARA EL BOTÓN IGUAL
+document.getElementById("igual").addEventListener("click", function () {
+    calcular();
+    actualizarPantalla();
+});
+
+// EVENTOS DE TECLADO (EXTRA PARA EL EXAMEN)
+document.addEventListener("keydown", function (evento) {
+    const tecla = evento.key;
+
+    if (tecla >= "0" && tecla <= "9") {
+        ingresarNumero(tecla);
+    } else if (tecla === ".") {
+        ingresarNumero(tecla);
+    } else if (tecla === "+" || tecla === "-") {
+        ingresarOperador(tecla);
+    } else if (tecla === "*") {
+        ingresarOperador("×");
+    } else if (tecla === "/") {
+        evento.preventDefault(); // Evitar que se abra quick find
+        ingresarOperador("÷");
+    } else if (tecla === "Enter" || tecla === "=") {
+        evento.preventDefault();
+        calcular();
+    } else if (tecla === "Escape") {
+        ejecutarEspecial("C");
+    } else if (tecla === "Backspace") {
+        ejecutarEspecial("⌫");
+    }
+
+    actualizarPantalla();
+});
+
+// INICIALIZAR
+actualizarPantalla();
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .calculadora {
+            background-color: #333;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        #pantalla {
+            width: 100%;
+            height: 60px;
+            background-color: #222;
+            color: white;
+            font-size: 2em;
+            text-align: right;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        .botones {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            height: 60px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        .numero {
+            background-color: #666;
+            color: white;
+        }
+
+        .operador {
+            background-color: #ff9500;
+            color: white;
+        }
+
+        .especial {
+            background-color: #a6a6a6;
+            color: black;
+        }
+
+        .cero {
+            grid-column: span 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculadora">
+        <!-- Pantalla -->
+        <input type="text" id="pantalla" readonly value="0">
+
+        <!-- Botones en grid/table -->
+        <div class="botones">
+            <!-- Fila 1 -->
+            <button class="especial" id="clear">C</button>
+            <button class="especial" id="borrar">⌫</button>
+            <button class="especial" id="porcentaje">%</button>
+            <button class="operador" id="dividir">÷</button>
+
+            <!-- Fila 2 -->
+            <button class="numero">7</button>
+            <button class="numero">8</button>
+            <button class="numero">9</button>
+            <button class="operador" id="multiplicar">×</button>
+
+            <!-- Fila 3 -->
+            <button class="numero">4</button>
+            <button class="numero">5</button>
+            <button class="numero">6</button>
+            <button class="operador" id="restar">−</button>
+
+            <!-- Fila 4 -->
+            <button class="numero">1</button>
+            <button class="numero">2</button>
+            <button class="numero">3</button>
+            <button class="operador" id="sumar">+</button>
+
+            <!-- Fila 5 -->
+            <button class="numero cero">0</button>
+            <button class="numero" id="punto">.</button>
+            <button class="operador" id="igual">=</button>
+        </div>
+    </div>
+
+    <script>
+        // JAVASCRIPT AQUÍ ABAJO
+    </script>
+</body>
+</html>

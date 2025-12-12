@@ -3,6 +3,7 @@ let botonInicio = document.getElementById("inicio");
 let botonResolver = document.getElementById("resolver")
 let movimientos = 0;
 
+
 tabla = document.getElementById('cuadricula')
 tabla.addEventListener("click",function(e) {
 
