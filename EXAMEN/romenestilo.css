@@ -5,41 +5,33 @@ body {
     text-align: center;
 }
 
+button {
+    width: 70px;
+    height: 70px;
+    border-radius: 10%;
+}
+
 table {
-    margin: auto;
-    border-collapse: collapse;
-
+    display: flex;
+    justify-content: center;
 }
 
-td {
-    
-    border: 2px solid black;
-    width: 60px;
-    height: 60px;
+#btnRojo {
+    background-color: red;
 }
 
-
-#cajonAzul {
-    color: red;
-    background-color: aqua;
-}
-
-#R{
+#btnR {
     color: orange;
 }
 
-#rojo {
-    background-color: red;
-}
 #btnVerde {
-    margin: 5px;
-    color: whitesmoke;
-    width: 180px;
-    height: 30px;
     background-color: green;
+    width: 220px;
+    height: 40px;
+    margin: 5px;
 }
 
-
-.exito {
-  color: red;
+#cajonAzul {
+    width: 220px;
+    background-color: aqua;
 }
