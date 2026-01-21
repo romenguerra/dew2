@@ -1,0 +1,127 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.navbar {
+    background-color: #333;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;          /* pone los elementos en fila */
+}
+
+.navbar li {
+    padding: 15px 20px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+}
+
+.navbar li:hover {
+    background-color: #555;
+}
+
+
+.carousel {
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+  min-width: 100%;
+}
+
+.slide img {
+  width: 100%;
+  display: block;
+}
+
+/* Ocultar submenú por defecto */
+.navbar ul ul {
+    display: none;
+    position: absolute;
+    background-color: #444;
+    min-width: 160px;
+    top: 100%;
+    left: 0;
+}
+
+/* Mostrar submenú al pasar el ratón */
+.navbar li:hover > ul {
+    display: block;
+}
+
+/* Posicionar el submenú relativo al li padre */
+.navbar li {
+    position: relative;
+}
+
+/* Estilos para las vistas Vue */
+.vista-login, 
+.vista-registro, 
+.vista-carrito,
+.vista-productos,
+.vista-acerca,
+.vista-inicio {
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 800px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Formularios */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+input, button {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    background: #ff4081;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #e91e63;
+}
+
+/* Carrito */
+.vista-carrito div {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.otra_informacion {
+    background: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    margin-top: 40px;
+}

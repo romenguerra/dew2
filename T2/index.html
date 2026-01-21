@@ -4,42 +4,131 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiestón</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <!-- TODO debe estar dentro de #app para que Vue funcione -->
+    <div id="app">
     
-    <nav class="navbar">
-        <ul>
-            <li><a href="#INICIO">Inicio</a></li>
-            <li><a href="#INICIO">Productos</a></li>
-            <li><a href="#INICIO">Acerca de</a></li>
-            <li><a href="#INICIO">Iniciar Sesion</a></li>
-            <li><a href="#INICIO">Cesta</a></li>
-            <li><a href="#INICIO">Idioma</a></li>
-        </ul>
-    </nav>
+        <nav class="navbar">
+            <ul>
+                <li><a href="#" @click="cambiarVista('inicio')">
+                    <img src="includes/imgs/logo3.png" alt="Logo" width="30">
+                </a></li>
+                <li>
+                    <a href="#" @click="cambiarVista('productos')">Productos</a>
+                    <ul>
+                        <li><a href="#" @click="filtrarProductos('globos')">Globos</a></li>
+                        <li><a href="#" @click="filtrarProductos('piñatas')">Piñatas</a></li>
+                        <li><a href="#" @click="filtrarProductos('girnaldas')">Girnaldas</a></li>
+                    </ul>
+                </li>
+                <li><a href="#" @click="cambiarVista('acerca')">Acerca de</a></li>
+                <li>
+                    <!-- Si NO hay usuario logueado, muestra login -->
+                    <a href="#" @click="cambiarVista('login')" v-if="!usuarioLogueado">
+                        Iniciar Sesión
+                    </a>
+                    <!-- Si SÍ hay usuario, muestra su nombre -->
+                    <a href="#" v-else>
+                        Hola, {{ usuarioLogueado.nombre }}
+                    </a>
+                </li>
+                <li><a href="#" @click="cambiarVista('carrito')">
+                    Cesta ({{ carrito.length }})
+                </a></li>
+                <li><a href="#" @click="cambiarIdioma">
+                    {{ idioma === 'es' ? 'ES' : 'EN' }}
+                </a></li>
+            </ul>
+        </nav>
 
-
-
-    <div class="carousel">
-        <div class="carousel-track">
-          <!-- Clon de la última -->
-          <div class="slide"><img src="includes/imgs/girnaldas.jpg" alt=""></div>
-        
-          <!-- Slides reales -->
-          <div class="slide"><img src="includes/imgs/girnaldas.jpg" alt=""></div>
-          <div class="slide"><img src="includes/imgs/globos.jpg" alt=""></div>
-          <div class="slide"><img src="includes/imgs/piñatas.jpg" alt=""></div>
-          <div class="slide"><img src="includes/imgs/cortinas.jpg" alt=""></div>
-          <div class="slide"><img src="includes/imgs/velas.jpeg" alt=""></div>
-        
-          <!-- Clon de la primera -->
-          <div class="slide"><img src="includes/imgs/velas.jpeg" alt=""></div>
+        <!-- CARRUSEL - fuera de Vue porque es JS puro -->
+        <div class="carousel">
+            <div class="carousel-track">
+                <!-- Tus slides aquí -->
+            </div>
         </div>
-    </div>
 
+        <!-- DIVISIÓN PRINCIPAL - Aquí Vue mostrará diferentes vistas -->
+        <div class="principal">
+            
+            <!-- VISTA: INICIO -->
+            <div v-if="vistaActual === 'inicio'" class="vista-inicio">
+                <h1>¡Bienvenido a Fiestón!</h1>
+                <p>Tu tienda de fiestas online</p>
+                <!-- Aquí irán productos recomendados -->
+            </div>
 
+            <!-- VISTA: LOGIN -->
+            <div v-if="vistaActual === 'login'" class="vista-login">
+                <h2>Iniciar Sesión</h2>
+                <form @submit.prevent="iniciarSesion">
+                    <label>Email:</label>
+                    <input type="email" v-model="loginEmail" required>
+                    
+                    <label>Contraseña:</label>
+                    <input type="password" v-model="loginPassword" required>
+                    
+                    <button type="submit">Entrar</button>
+                </form>
+                <p>
+                    ¿No tienes cuenta? 
+                    <a href="#" @click="cambiarVista('registro')">Regístrate aquí</a>
+                </p>
+            </div>
 
-    <script src="script.js"></script>
+            <!-- VISTA: REGISTRO -->
+            <div v-if="vistaActual === 'registro'" class="vista-registro">
+                <h2>Registro de Usuario</h2>
+                <form @submit.prevent="registrarUsuario">
+                    <!-- Aquí irán los 5 campos con regex -->
+                </form>
+            </div>
+
+            <!-- VISTA: CARRITO -->
+            <div v-if="vistaActual === 'carrito'" class="vista-carrito">
+                <h2>Tu Carrito de Compras</h2>
+                <div v-if="carrito.length === 0">
+                    <p>El carrito está vacío</p>
+                </div>
+                <div v-else>
+                    <div v-for="(item, index) in carrito" :key="index">
+                        {{ item.nombre }} - {{ item.precio }}€
+                        <button @click="eliminarDelCarrito(index)">Eliminar</button>
+                    </div>
+                    <h3>Total: {{ calcularTotal() }}€</h3>
+                    <button @click="confirmarPedido">Confirmar Pedido</button>
+                </div>
+            </div>
+
+            <!-- VISTA: PRODUCTOS -->
+            <div v-if="vistaActual === 'productos'" class="vista-productos">
+                <h2>Nuestros Productos</h2>
+                <!-- Aquí se listarán los productos de la BD -->
+            </div>
+
+            <!-- VISTA: ACERCA DE -->
+            <div v-if="vistaActual === 'acerca'" class="vista-acerca">
+                <h2>Sobre Nosotros</h2>
+                <p>Información de la empresa...</p>
+            </div>
+
+        </div>
+
+        <!-- DIVISIÓN FINAL (footer) -->
+        <div class="otra_informacion">
+            <p>© 2025 Fiestón - Tu tienda de fiestas</p>
+            <p>Dirección: Calle Falsa 123, Ciudad</p>
+            <p>Email: info@fieston.com | Tel: 612 345 678</p>
+        </div>
+
+    </div> <!-- Fin del div#app -->
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Quita main.js por ahora, usaremos todo en app.js -->
+    <script src="js/app.js"></script>
+    <script src="js/carousel.js"></script>
 </body>
 </html>
