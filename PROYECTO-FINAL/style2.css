@@ -1,0 +1,95 @@
+/* Quitamos márgenes raros del navegador */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Contenedor del menú */
+#menu {
+    background-color: #222;
+}
+
+/* Lista horizontal */
+#menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+/* Cada opción */
+#menu li {
+    padding: 10px 15px;
+}
+
+/* Enlaces */
+#menu a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Hover simple */
+#menu a:hover {
+    text-decoration: underline;
+}
+
+/* Logo alineado */
+#menu img {
+    vertical-align: middle;
+}
+
+
+
+/*CARRUSEL*/
+
+.productos {
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+  min-width: 100%;
+}
+
+.slide img {
+  width: 100%;
+  display: block;
+}
+
+
+/*FOOTER*/
+
+footer {
+    background-color: #222;
+    color: white;
+    text-align: center;
+    padding: 40px;
+    margin-top: 40px;
+}
+
+/* Cada fila icono + texto */
+.footer-item {
+    display: inline-flex;      /* fila horizontal y respetando centro del footer */
+    align-items: center;       /* centra icono y texto verticalmente */
+    gap: 8px;                  /* espacio entre icono y texto */
+    margin: 5px 15px;          /* separa filas horizontalmente si quieres poner varias en línea */
+}
+
+/* Estilo de los iconos */
+.material-icons {
+    font-size: 24px;
+    color: white;
+}
+
+footer p {
+    margin-top: 40px;
+}
+
