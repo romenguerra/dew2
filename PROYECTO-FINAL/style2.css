@@ -1,95 +1,209 @@
-/* Quitamos márgenes raros del navegador */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
+/*GENERAL*/
+:root {
+    --primary: #ADD8E6;     
+    --secondary: #000000;    
+    --accent: #4169E1;       
+    --light: #f8f9fa;
+    --dark: #1a1a2e;
+    --gray: #6c757d;
+    --ocean-light: #c2e7ff;
+    --sand: #f5e6ca;
 }
 
-/* Contenedor del menú */
-#menu {
-    background-color: #222;
-}
-
-/* Lista horizontal */
-#menu ul {
-    list-style: none;
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: var(--secondary);
+    background-color: #ffffff;
+    line-height: 1.7;
+    overflow-x: hidden;
+    transition: all 0.3s ease;
+    padding-top: 100px;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+h2 {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 2rem; 
+    color: var(--accent);
+}
+
+/* HEADER */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    padding: 10px 0;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+    border-bottom: 1px solid rgba(173,216,230,0.2);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+}
+
+.logo-img {
+    height: 60px;
+    width: auto;
+}
+
+#menu nav ul {
+    list-style: none;
     display: flex;
     align-items: center;
+    gap: 30px;
 }
 
-/* Cada opción */
-#menu li {
-    padding: 10px 15px;
-}
-
-/* Enlaces */
-#menu a {
-    color: white;
+#menu nav ul li a {
     text-decoration: none;
+    color: var(--secondary);
+    font-weight: 500;
+    transition: color 0.3s;
 }
 
-/* Hover simple */
-#menu a:hover {
-    text-decoration: underline;
+#menu nav ul li a:hover {
+    color: var(--accent);
 }
 
-/* Logo alineado */
-#menu img {
-    vertical-align: middle;
-}
-
-
-
-/*CARRUSEL*/
-
-.productos {
-  width: 100%;
-  max-width: 600px;
-  margin: auto;
-  overflow: hidden;
+/* CARRUSEL */
+.carousel-container {
+    overflow: hidden;
+    margin: 20px auto;
+    width: 90%;
+    height: 400px;
 }
 
 .carousel-track {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    height: 100%;
 }
 
 .slide {
-  min-width: 100%;
+    min-width: 100%;
+    height: 100%;
 }
 
 .slide img {
-  width: 100%;
-  display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
+/* PRODUCTOS */
+.productos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    width: 90%;
+    margin: auto;
+}
 
-/*FOOTER*/
+.producto {
+    background-color: var(--light);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
 
+.producto img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.producto h3 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.producto p {
+    font-weight: bold;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.producto button {
+    padding: 8px 12px;
+    border: none;
+    background-color: var(--accent);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.producto button:hover {
+    background-color: var(--primary);
+}
+
+/* CARRITO Y REGISTRO */
+section#carrito ul {
+    list-style: none;
+    margin-bottom: 15px;
+}
+
+section#carrito li {
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+section#carrito button, section#registro button {
+    padding: 8px 15px;
+    border: none;
+    background-color: var(--accent);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 5px;
+}
+
+section#carrito button:hover, section#registro button:hover {
+    background-color: var(--primary);
+}
+
+section#registro input {
+    display: block;
+    width: 80%;
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--gray);
+}
+
+/* FOOTER */
 footer {
-    background-color: #222;
+    background-color: var(--secondary);
     color: white;
     text-align: center;
     padding: 40px;
-    margin-top: 40px;
 }
 
-/* Cada fila icono + texto */
 .footer-item {
-    display: inline-flex;      /* fila horizontal y respetando centro del footer */
-    align-items: center;       /* centra icono y texto verticalmente */
-    gap: 8px;                  /* espacio entre icono y texto */
-    margin: 5px 15px;          /* separa filas horizontalmente si quieres poner varias en línea */
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 5px 15px;
 }
 
-/* Estilo de los iconos */
 .material-icons {
     font-size: 24px;
     color: white;
 }
-
-footer p {
-    margin-top: 40px;
-}
-

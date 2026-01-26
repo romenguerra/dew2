@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiestón</title>
+    <link rel="stylesheet" href="style2.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+<div id="app">
+    <!-- HEADER / MENÚ -->
+    <header>
+        <div id="menu" class="header-container">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="#" @click.prevent="vistaActual = 'productos'" class="logo-container">
+                            <img src="includes/imgs/logo3.png" alt="logo del menu" class="logo-img">
+                        </a>
+                    </li>
+                    <li><a href="#" @click.prevent="vistaActual = 'inicio'">INICIO</a></li>
+                    <li><a href="#" @click.prevent="vistaActual = 'productos'">PRODUCTOS</a></li>
+                    <li><a href="#final">ACERCA DE</a></li>
+                    <li>
+                        <a href="#" @click.prevent="vistaActual = usuarioLogueado ? 'perfil' : 'registro'">
+                            {{ usuarioLogueado ? 'Hola, ' + usuarioLogueado.nombre : 'Iniciar Sesión' }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" @click.prevent="vistaActual = 'carrito'">
+                            Carrito ({{ carrito.length }})
+                        </a>
+                    </li>
+                    <li><a href="#">Idioma</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- PRODUCTOS Y CARRUSEL -->
+    <section v-if="vistaActual === 'productos'" id="productos">
+        <h2>Productos Destacados</h2>
+
+        <!-- CARRUSEL -->
+        <div class="carousel-container">
+            <div class="carousel-track" :style="{ transform: `translateX(-${index * 100}%)` }">
+                <div class="slide" v-for="(slide, i) in slides" :key="i">
+                    <img :src="slide" alt="slide">
+                </div>
+            </div>
+        </div>
+
+        <!-- PRODUCTOS -->
+        <div class="productos-container">
+            <div class="producto" v-for="producto in productos" :key="producto.id">
+                <img :src="producto.imagen" :alt="producto.nombre">
+                <h3>{{ producto.nombre }}</h3>
+                <p>{{ producto.precio }} €</p>
+                <button @click="agregarAlCarrito(producto)">Añadir al carrito</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CARRITO -->
+    <section v-if="vistaActual === 'carrito'" id="carrito">
+        <h2>Tu Carrito</h2>
+        <div v-if="carrito.length === 0">¡El carrito está vacío!</div>
+        <ul v-else>
+            <li v-for="item in carrito" :key="item.id">{{ item.nombre }} - {{ item.precio }} €</li>
+        </ul>
+        <h3 v-if="carrito.length > 0">Total: {{ totalCarrito }} €</h3>
+        <button @click="confirmarCompra" v-if="carrito.length > 0">Confirmar Compra</button>
+        <button @click="vistaActual = 'productos'">Seguir Comprando</button>
+    </section>
+
+    <!-- REGISTRO -->
+    <section v-if="vistaActual === 'registro'" id="registro">
+        <h2>Registro de Usuario</h2>
+        <input type="text" v-model="usuarioNuevo.nombre" placeholder="Nombre completo">
+        <input type="email" v-model="usuarioNuevo.email" placeholder="Correo electrónico">
+        <input type="text" v-model="usuarioNuevo.telefono" placeholder="Teléfono">
+        <button @click="registrarUsuario">Registrarse</button>
+        <button @click="vistaActual = 'productos'">Volver a Productos</button>
+    </section>
+
+    <!-- PERFIL -->
+    <section v-if="vistaActual === 'perfil'" id="perfil">
+        <h2>Perfil de Usuario</h2>
+        <p><strong>Nombre:</strong> {{ usuarioLogueado.nombre }}</p>
+        <p><strong>Email:</strong> {{ usuarioLogueado.email }}</p>
+        <p><strong>Teléfono:</strong> {{ usuarioLogueado.telefono }}</p>
+        <button @click="cerrarSesion">Cerrar Sesión</button>
+        <button @click="vistaActual = 'productos'">Volver a Productos</button>
+    </section>
+
+    <!-- FOOTER -->
+    <div id="final">
+        <footer>
+            <div class="footer-item">
+                <i class="material-icons">add_location_alt</i>
+                <span>Calle del Ritmo nº 27, 2ª Planta, 28015 Madrid, España</span>
+            </div>
+            <div class="footer-item">
+                <i class="material-icons">mail</i>
+                <span>contacto@fieston.com</span>
+            </div>
+            <div class="footer-item">
+                <i class="material-icons">add_call</i>
+                <span>+34 928 124 578</span>
+            </div>
+            <p>&copy; 2026 Fiestón. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
