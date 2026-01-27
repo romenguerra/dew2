@@ -39,22 +39,19 @@ h2 {
 }
 
 /* HEADER */
+/* HEADER */
 header {
     position: fixed;
     top: 0;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(10px);
     z-index: 1000;
     padding: 10px 0;
-    box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     border-bottom: 1px solid rgba(173,216,230,0.2);
 }
 
 .header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 0 30px;
 }
 
@@ -63,23 +60,98 @@ header {
     width: auto;
 }
 
-#menu nav ul {
+/* Navegación principal */
+#menu nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Menú izquierdo */
+#menu nav > ul {
     list-style: none;
     display: flex;
     align-items: center;
     gap: 30px;
+    margin: 0;
+    padding: 0;
 }
 
-#menu nav ul li a {
+#menu nav > ul li a {
     text-decoration: none;
     color: var(--secondary);
     font-weight: 500;
-    transition: color 0.3s;
+    font-size: 16px;
 }
 
-#menu nav ul li a:hover {
+#menu nav > ul li a:hover {
     color: var(--accent);
 }
+
+/* Menú derecho - MUY SIMPLE */
+.menu-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.menu-right li {
+    list-style: none;
+}
+
+/* Iconos con texto abajo */
+.menu-right li a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--secondary);
+    padding: 5px;
+}
+
+.menu-right li a:hover {
+    color: var(--accent);
+}
+
+/* Iconos SVG */
+.menu-right li a i svg,
+.menu-right li a svg {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 2px;
+}
+
+/* Texto pequeño abajo */
+.menu-right li a span {
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Para el tercer elemento que tiene estructura diferente */
+.menu-right li:nth-child(3) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.menu-right li:nth-child(3) span {
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+/* Responsive básico */
+@media (max-width: 768px) {
+    #menu nav > ul {
+        gap: 15px;
+    }
+    
+    .menu-right {
+        gap: 10px;
+    }
+}
+
+
+
 
 /* CARRUSEL */
 .carousel-container {
@@ -190,6 +262,7 @@ section#registro input {
 
 /* FOOTER */
 footer {
+    margin-top: 100px;
     background-color: var(--secondary);
     color: white;
     text-align: center;

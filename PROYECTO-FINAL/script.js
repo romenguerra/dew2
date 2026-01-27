@@ -146,4 +146,29 @@ const app = Vue.createApp({
   }
 });
 
+
+app.component("footer-fieston", {
+  template: `
+    <footer>
+            <div class="footer-item">
+                <i class="material-icons">add_location_alt</i>
+                <span>Calle del Ritmo nº 27, 2ª Planta, 28015 Madrid, España</span>
+            </div>
+            <div class="footer-item">
+                <i class="material-icons">mail</i>
+                <span>contacto@fieston.com</span>
+            </div>
+            <div class="footer-item">
+                <i class="material-icons">add_call</i>
+                <span>+34 928 124 578</span>
+            </div>
+            <p>&copy; 2026 Fiestón. Todos los derechos reservados.</p>
+        </footer>
+        `
+});
+
+
+
+
+
 app.mount('#app');
