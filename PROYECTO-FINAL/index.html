@@ -22,9 +22,9 @@
                             <img src="includes/imgs/logo3.png" alt="logo del menu" class="logo-img">
                         </a>
                     </li>
-                    <li><a href="#" @click.prevent="vistaActual = 'inicio'">INICIO</a></li>
-                    <li><a href="#" @click.prevent="vistaActual = 'productos'">PRODUCTOS</a></li>
-                    <li><a href="#final">ACERCA DE</a></li>
+                    <li><a href="#" @click.prevent="vistaActual = 'inicio'">{{ t.inicio }}</a></li>
+                    <li><a href="#" @click.prevent="vistaActual = 'productos'">{{ t.productos }}</a></li>
+                    <li><a href="#" @click.prevent="vistaActual = 'acerca'">{{ t.acercaDe }}</a></li>
 
                 </ul>
                     
@@ -32,19 +32,19 @@
                     <li>
                         <a href="#" @click.prevent="vistaActual = usuarioLogueado ? 'perfil' : 'registro'">
                             <i class="material-icons"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FF"><path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm246-164q-59 0-99.5-40.5T340-580q0-59 40.5-99.5T480-720q59 0 99.5 40.5T620-580q0 59-40.5 99.5T480-440Zm0 360q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q53 0 100-15.5t86-44.5q-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160Zm0-360q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm0-60Zm0 360Z"/></svg></i>
-                            <span class="user-text">{{ usuarioLogueado ? 'Hola, ' + usuarioLogueado.nombre : 'Iniciar Sesión' }}</span>
+                            <span class="user-text">{{ usuarioLogueado ? t.hola + usuarioLogueado.nombre : t.iniciarSesion }}</span>
                         </a>
                     </li>
                     <li>
                         <a href="#" @click.prevent="vistaActual = 'carrito'">
                             <i class="material-icons"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FF"><path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/></svg></i>
-                            <span class="cart-text">Carrito ({{ carrito.length }})</span>
+                            <span class="cart-text">{{ t.carrito }} ({{ carrito.length }})</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="#" @click.prevent="cambiarIdioma()">
                             <i class="material-icons"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FF"><path d="m480-80-40-120H160q-33 0-56.5-23.5T80-280v-520q0-33 23.5-56.5T160-880h240l35 120h365q35 0 57.5 22.5T880-680v520q0 33-22.5 56.5T800-80H480ZM286-376q69 0 113.5-44.5T444-536q0-8-.5-14.5T441-564H283v62h89q-8 28-30.5 43.5T287-443q-39 0-67-28t-28-69q0-41 28-69t67-28q18 0 34 6.5t29 19.5l49-47q-21-22-50.5-34T286-704q-67 0-114.5 47.5T124-540q0 69 47.5 116.5T286-376Zm268 20 22-21q-14-17-25.5-33T528-444l26 88Zm50-51q28-33 42.5-63t19.5-47H507l12 42h40q8 15 19 32.5t26 35.5Zm-84 287h280q18 0 29-11.5t11-28.5v-520q0-18-11-29t-29-11H447l47 162h79v-42h41v42h146v41h-51q-10 38-30 74t-47 67l109 107-29 29-108-108-36 37 32 111-80 80Z"/></svg></i>
-                            <span>Idioma</span>
+                            <span>{{ idiomaActual === 'es' ? 'ES' : 'EN' }}</span>
                         </a>
                         
                     </li>
@@ -58,18 +58,20 @@
     <!-- PRODUCTOS -->
     <section v-if="vistaActual === 'productos'" id="productos">
         <div class="productos-container">
-            <div class="producto" v-for="producto in productos" :key="producto.id">
+            <div class="producto" v-for="producto in productos" :key="producto.id" @click="seleccionarProducto(producto)" style="cursor: pointer;">
                 <img :src="producto.imagen" :alt="producto.nombre">
                 <h3>{{ producto.nombre }}</h3>
                 <p>{{ producto.precio }} €</p>
-                <button @click="agregarAlCarrito(producto)">Añadir al carrito</button>
+                <div class="producto-hover">
+                    <span>Ver detalle</span>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- PRODUCTOS Y CARRUSEL -->
     <section v-if="vistaActual === 'inicio'" id="inicio">
-        <h2>Productos Destacados</h2>
+        <h2>{{ t.productosDestacados }}</h2>
 
         <!-- CARRUSEL -->
         <div class="carousel-container">
@@ -82,45 +84,127 @@
 
         <!-- PRODUCTOS -->
         <div class="productos-container">
-            <div class="producto" v-for="producto in productos" :key="producto.id">
+            <div class="producto" v-for="producto in productos" :key="producto.id" @click="seleccionarProducto(producto)" style="cursor: pointer;">
                 <img :src="producto.imagen" :alt="producto.nombre">
                 <h3>{{ producto.nombre }}</h3>
                 <p>{{ producto.precio }} €</p>
-                <button @click="agregarAlCarrito(producto)">Añadir al carrito</button>
+                <div class="producto-hover">
+                    <span>Ver detalle</span>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- CARRITO -->
     <section v-if="vistaActual === 'carrito'" id="carrito">
-        <h2>Tu Carrito</h2>
-        <div v-if="carrito.length === 0">¡El carrito está vacío!</div>
+        <h2>{{ t.miCarrito }}</h2>
+        <div v-if="carrito.length === 0">{{ t.carritoVacio }}</div>
         <ul v-else>
             <li v-for="item in carrito" :key="item.id">{{ item.nombre }} - {{ item.precio }} €</li>
         </ul>
-        <h3 v-if="carrito.length > 0">Total: {{ totalCarrito }} €</h3>
-        <button @click="confirmarCompra" v-if="carrito.length > 0">Confirmar Compra</button>
-        <button @click="vistaActual = 'productos'">Seguir Comprando</button>
+        <h3 v-if="carrito.length > 0">{{ t.total }}: {{ totalCarrito }} €</h3>
+        <button @click="confirmarCompra" v-if="carrito.length > 0">{{ t.confirmarCompra }}</button>
+        <button @click="vistaActual = 'productos'">{{ t.seguirComprando }}</button>
     </section>
 
-    <!-- REGISTRO -->
+    <!-- AUTENTICACIÓN (LOGIN/REGISTRO) -->
     <section v-if="vistaActual === 'registro'" id="registro">
-        <h2>Registro de Usuario</h2>
-        <input type="text" v-model="usuarioNuevo.nombre" placeholder="Nombre completo">
-        <input type="email" v-model="usuarioNuevo.email" placeholder="Correo electrónico">
-        <input type="text" v-model="usuarioNuevo.telefono" placeholder="Teléfono">
-        <button @click="registrarUsuario">Registrarse</button>
-        <button @click="vistaActual = 'productos'">Volver a Productos</button>
+        <h2>{{ modoAuth === 'login' ? t.iniciarSesionTitle : t.registroUsuarioTitle }}</h2>
+        
+        <!-- Toggle entre Login y Registro -->
+        <div class="auth-toggle">
+            <button v-if="modoAuth === 'login'" @click="modoAuth = 'registro'">{{ t.noTienesCuenta }}</button>
+            <button v-if="modoAuth === 'registro'" @click="modoAuth = 'login'">{{ t.yaTienesCuenta }}</button>
+        </div>
+
+        <!-- Formulario de Login -->
+        <div v-if="modoAuth === 'login'" class="auth-form">
+            <input type="email" v-model="usuarioLogin.email" :placeholder="t.correoElectronico">
+            <input type="text" v-model="usuarioLogin.telefono" :placeholder="t.telefono">
+            <button @click="iniciarSesion">{{ t.iniciarSesionBtn }}</button>
+        </div>
+
+        <!-- Formulario de Registro -->
+        <div v-if="modoAuth === 'registro'" class="auth-form">
+            <input type="text" v-model="usuarioNuevo.nombre" :placeholder="t.nombreCompleto">
+            <input type="email" v-model="usuarioNuevo.email" :placeholder="t.correoElectronico">
+            <input type="text" v-model="usuarioNuevo.telefono" :placeholder="t.telefono">
+            <button @click="registrarUsuario">{{ t.registrarse }}</button>
+        </div>
+
+        <button @click="vistaActual = 'productos'">{{ t.volverProductos }}</button>
     </section>
 
     <!-- PERFIL -->
     <section v-if="vistaActual === 'perfil'" id="perfil">
-        <h2>Perfil de Usuario</h2>
-        <p><strong>Nombre:</strong> {{ usuarioLogueado.nombre }}</p>
-        <p><strong>Email:</strong> {{ usuarioLogueado.email }}</p>
-        <p><strong>Teléfono:</strong> {{ usuarioLogueado.telefono }}</p>
-        <button @click="cerrarSesion">Cerrar Sesión</button>
-        <button @click="vistaActual = 'productos'">Volver a Productos</button>
+        <h2>{{ t.perfilUsuario }}</h2>
+        <p><strong>{{ t.nombre }}:</strong> {{ usuarioLogueado.nombre }}</p>
+        <p><strong>{{ t.email }}:</strong> {{ usuarioLogueado.email }}</p>
+        <p><strong>{{ t.telefono }}:</strong> {{ usuarioLogueado.telefono }}</p>
+        <button @click="cerrarSesion">{{ t.cerrarSesion }}</button>
+        <button @click="vistaActual = 'productos'">{{ t.volverProductos }}</button>
+    </section>
+
+    <!-- ACERCA DE -->
+    <section v-if="vistaActual === 'acerca'" id="acerca">
+        <h2>{{ t.tituloAcercaDe }}</h2>
+        
+        <div class="acerca-content">
+            <div class="acerca-section">
+                <h3>{{ t.subtituloHistoria }}</h3>
+                <p>{{ t.parrafo1 }}</p>
+                <p>{{ t.parrafo2 }}</p>
+                <p>{{ t.parrafo3 }}</p>
+            </div>
+            
+            <div class="acerca-section">
+                <h3>{{ t.subtituloCompromiso }}</h3>
+                <p>{{ t.parrafo4 }}</p>
+                <p>{{ t.parrafo5 }}</p>
+            </div>
+            
+            <div class="acerca-section">
+                <h3>{{ t.subtituloEquipo }}</h3>
+                <p>{{ t.parrafo6 }}</p>
+            </div>
+        </div>
+        
+        <button @click="vistaActual = 'inicio'" class="btn-primary">{{ t.volverInicio }}</button>
+    </section>
+
+    <!-- DETALLE PRODUCTO -->
+    <section v-if="vistaActual === 'producto-detalle' && productoSeleccionado" id="producto-detalle">
+        <div class="producto-detalle-container">
+            <div class="producto-detalle-imagen">
+                <img :src="productoSeleccionado.imagen" :alt="productoSeleccionado.nombre">
+            </div>
+            
+            <div class="producto-detalle-info">
+                <h2>{{ productoSeleccionado.nombre }}</h2>
+                <p class="producto-precio">{{ t.precio }}: {{ productoSeleccionado.precio }} €</p>
+                
+                <div class="producto-descripcion">
+                    <h3>{{ t.descripcion }}</h3>
+                    <p>{{ productoSeleccionado.descripcion }}</p>
+                </div>
+                
+                <div class="producto-caracteristicas">
+                    <h3>{{ t.caracteristicas }}</h3>
+                    <ul>
+                        <li v-for="caracteristica in productoSeleccionado.caracteristicas" :key="caracteristica">
+                            {{ caracteristica }}
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="producto-acciones">
+                    <button @click="usuarioLogueado ? agregarAlCarrito(productoSeleccionado) : vistaActual = 'registro'" class="btn-primary">
+                        {{ usuarioLogueado ? t.agregarCarrito : t.iniciaSesionComprar }}
+                    </button>
+                    <button @click="vistaActual = 'productos'" class="btn-secondary">{{ t.volverProductos }}</button>
+                </div>
+            </div>
+        </div>
     </section>
 
     
