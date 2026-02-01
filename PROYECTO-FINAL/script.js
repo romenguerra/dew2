@@ -217,8 +217,26 @@ const app = Vue.createApp({
           debeIniciarSesion: 'You must sign in to add products to cart',
           errorCargarProductos: 'Error loading products from database.',
           
-          // Footer
-          derechosReservados: 'All rights reserved.'
+          // Acerca de
+          tituloAcercaDe: 'About Fiestón',
+          subtituloHistoria: 'Our Story',
+          parrafo1: 'Fiestón was born in 2018 from the passion for creating unforgettable moments. It all started when our founders, a group of celebration-loving friends, realized that organizing perfect parties shouldn\'t be complicated.',
+          parrafo2: 'After years of decorating their own parties with improvised items, they decided to create a specialized store where everyone could find everything needed to make every celebration an extraordinary event.',
+          parrafo3: 'From our humble beginnings in a small shop in Madrid, we have grown to become the reference store for parties and celebrations throughout Spain. Our mission is simple: to make every party memorable.',
+          subtituloCompromiso: 'Our Commitment',
+          parrafo4: 'At Fiestón we are committed to offering the highest quality products at affordable prices. We work directly with local suppliers to guarantee the freshness and quality of our items.',
+          parrafo5: 'Each product in our store has been selected with the thought of creating moments of joy. From shiny confetti to surprise piñatas, everything is designed to add magic to your celebrations.',
+          subtituloEquipo: 'Our Team',
+          parrafo6: 'Behind Fiestón is a passionate team of celebration experts. From creative designers to customer service specialists, we all share the same goal: to make you smile.',
+          volverInicio: 'Back to Home',
+          
+          // Detalle producto
+          descripcion: 'Description',
+          caracteristicas: 'Features',
+          precio: 'Price',
+          cantidad: 'Quantity',
+          agregarCarrito: 'Add to Cart',
+          volverProductos: 'Back to Products'
         }
       }
     };
