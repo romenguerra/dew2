@@ -270,7 +270,11 @@ const app = Vue.createApp({
           caracteristicas: producto.caracteristicas || ['Característica 1', 'Característica 2']
         }));
         
+        // Usar las imágenes de los primeros productos como slides del carrusel
+        this.slides = this.productos.slice(0, 6).map(p => p.imagen);
+        
         console.log('Productos cargados:', this.productos);
+        console.log('Slides del carrusel:', this.slides);
         
       } catch (error) {
         console.error('Error al cargar productos:', error);
@@ -325,6 +329,9 @@ const app = Vue.createApp({
             caracteristicas: ['Números del 1-12', 'Colores brillantes', 'Fáciles de colocar', 'Seguras para niños']
           },
         ];
+        
+        // Usar las imágenes de los productos de respaldo como slides del carrusel
+        this.slides = this.productos.slice(0, 6).map(p => p.imagen);
       }
     },
 
@@ -459,11 +466,12 @@ const app = Vue.createApp({
       this.idiomaActual = idiomaGuardado;
     }
 
-    // Carrusel automático
-    setInterval(() => {
-      this.index++;
-      if (this.index >= this.slides.length) this.index = 0;
-    }, 3000);
+    // Inicializar carrusel después de que Vue renderice
+    this.$nextTick(() => {
+      setTimeout(() => {
+        inicializarCarrusel();
+      }, 100);
+    });
   }
 });
 
@@ -494,39 +502,41 @@ app.component("footer-fieston", {
 
 app.mount('#app');
 
-// Carrusel
-const track = document.querySelector('.carousel-track');
-const slides = document.querySelectorAll('.slide');
+// Función para inicializar el carrusel
+function inicializarCarrusel() {
+  const track = document.querySelector('.carousel-track');
+  const slides = document.querySelectorAll('.slide');
 
-let index = 1; // empezamos en la primera real
-const DELAY = 2000;
+  if (!track || slides.length === 0) {
+    console.log('Carrusel no encontrado o sin slides');
+    return;
+  }
 
-function updateCarousel(animate = true) {
-  track.style.transition = animate ? 'transform 0.5s ease-in-out' : 'none';
-  track.style.transform = `translateX(-${index * 100}%)`;
+  let currentIndex = 0;
+  const totalSlides = slides.length;
+  const delay = 3000; // 3 segundos
+
+  function updateCarousel(animate = true) {
+    if (animate) {
+      track.style.transition = 'transform 0.5s ease-in-out';
+    } else {
+      track.style.transition = 'none';
+    }
+    track.style.transform = `translateX(-${currentIndex * 100}%)`;
+  }
+
+  // Posición inicial
+  updateCarousel(false);
+
+  // Función para ir al siguiente slide
+  function nextSlide() {
+    currentIndex++;
+    if (currentIndex >= totalSlides) {
+      currentIndex = 0;
+    }
+    updateCarousel(true);
+  }
+
+  // Autoplay
+  setInterval(nextSlide, delay);
 }
-
-// Posición inicial
-updateCarousel(false);
-
-// Autoplay
-setInterval(() => {
-  index++;
-  updateCarousel();
-
-  // Si llegamos al clon final
-  if (index === slides.length - 1) {
-    setTimeout(() => {
-      index = 1;
-      updateCarousel(false);
-    }, 500);
-  }
-
-  // Si llegamos al clon inicial (por seguridad)
-  if (index === 0) {
-    setTimeout(() => {
-      index = slides.length - 2;
-      updateCarousel(false);
-    }, 500);
-  }
-}, DELAY);

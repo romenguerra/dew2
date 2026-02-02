@@ -75,9 +75,9 @@
 
         <!-- CARRUSEL -->
         <div class="carousel-container">
-            <div class="carousel-track" :style="{ transform: `translateX(-${index * 100}%)` }">
+            <div class="carousel-track">
                 <div class="slide" v-for="(slide, i) in slides" :key="i">
-                    <img :src="slide" alt="slide">
+                    <img :src="slide" :alt="'Producto ' + (i + 1)">
                 </div>
             </div>
         </div>
